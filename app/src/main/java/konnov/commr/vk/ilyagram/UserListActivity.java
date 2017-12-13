@@ -162,6 +162,9 @@ public class UserListActivity extends AppCompatActivity {
 
         }
         if(item.getItemId() == R.id.logout){
+            SharedPreferenceHelper sharedPref = new SharedPreferenceHelper(UserListActivity.this);
+            sharedPref.saveInSharedPref(sharedPref.DEFAULT_VALUE, sharedPref.DEFAULT_VALUE);
+
             ParseUser.logOut();
 
             Intent intent = new Intent(UserListActivity.this, MainActivity.class);
@@ -170,4 +173,13 @@ public class UserListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

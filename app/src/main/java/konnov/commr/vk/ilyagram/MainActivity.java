@@ -26,6 +26,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,13 +43,20 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        SharedPreferenceHelper sharedPreference = new SharedPreferenceHelper(this);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         passwordEditText.setOnKeyListener(this);
-//////////////////////////////////////////////////
-//        if(ParseUser.getCurrentUser() != null)
-//            showUserList();
-        //////////////////////////////////////
+//////////////////////////////////////////////////checking if user alread signed in before
+        if(sharedPreference.getSharedPref() != null){
+            ArrayList<String> lastUserData = sharedPreference.getSharedPref();
+            usernameEditText.setText(lastUserData.get(0));
+            passwordEditText.setText(lastUserData.get(1));
+            usernameString = lastUserData.get(0);
+            passwordString = lastUserData.get(1);
+        }
+
+//////////////////////////////////////
     }
 
     private void logIn(View view){
@@ -57,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
                 @Override
                 public void done(ParseUser user, ParseException e) {
                     if(e == null){
+                        SharedPreferenceHelper sharedPreference = new SharedPreferenceHelper(MainActivity.this);
+                        sharedPreference.saveInSharedPref(usernameString, passwordString);
                         showUserList();
                     }
                     else
