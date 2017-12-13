@@ -1,33 +1,25 @@
 package konnov.commr.vk.ilyagram;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseAnalytics;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnKeyListener {
@@ -56,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             passwordString = lastUserData.get(1);
         }
 
+
+        if(!isNetworkAvailable())
+            Toast.makeText(this, "PLEASE CONNECT YOUR DEVICE TO INTERNET", Toast.LENGTH_LONG).show();
 //////////////////////////////////////
     }
 
@@ -139,6 +134,14 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
         if(i == keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN)
@@ -146,6 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         return false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isNetworkAvailable())
+            Toast.makeText(this, "PLEASE CONNECT YOUR DEVICE TO INTERNET", Toast.LENGTH_LONG).show();
+    }
 }
 
 

@@ -10,14 +10,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,15 +128,16 @@ public class UserListActivity extends AppCompatActivity {
                         if(e == null)
                             Toast.makeText(UserListActivity.this, "Image shared", Toast.LENGTH_SHORT).show();
                         else
-                            Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-            } catch (IOException e) {
-                Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }
     }
+
 
 
     @Override

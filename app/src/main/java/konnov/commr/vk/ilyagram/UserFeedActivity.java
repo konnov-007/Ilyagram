@@ -66,7 +66,7 @@ public class UserFeedActivity extends AppCompatActivity {
                         }
                     }
                 }else
-                    Toast.makeText(UserFeedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserFeedActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
